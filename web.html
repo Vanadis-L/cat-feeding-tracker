@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Cat Feeding Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        main {
+            margin: 20px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto 20px;
+        }
+
+        .log {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .checkbox-group {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group label {
+            margin-right: 15px;
+            display: inline-block;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .log-entry {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #e53935;
+        }
+
+        .language-selector {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        footer {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 id="title">Community Cat Feeding Tracker</h1>
+    </header>
+
+    <div class="language-selector">
+        <label for="language">Choose Language:</label>
+        <select id="language">
+            <option value="en">English</option>
+            <option value="zh">汉语</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="ms">Bahasa Melayu</option>
+        </select>
+    </div>
+
+    <main>
+        <div class="form-container">
+            <h2 id="log-feeding-title">Log Feeding</h2>
+            <form id="feedingForm">
+                <label for="feederName" id="feeder-name-label">Your Name:</label><br>
+                <input type="text" id="feederName" name="feederName" required><br><br>
+
+                <div class="checkbox-group">
+                    <label id="feeding-type-label">Feeding Type:</label><br>
+                    <input type="checkbox" id="catFood" name="feedingType" value="Cat Food">
+                    <label for="catFood" id="cat-food-label">Cat Food</label>
+                    <input type="checkbox" id="cannedFood" name="feedingType" value="Canned Food">
+                    <label for="cannedFood" id="canned-food-label">Canned Food</label>
+                    <input type="checkbox" id="otherFood" name="feedingType" value="Other">
+                    <label for="otherFood" id="other-food-label">Other</label>
+                </div>
+
+                <button type="submit" id="submit-button">Submit</button>
+            </form>
+        </div>
+
+        <div class="log">
+            <h2 id="feeding-log-title">Feeding Log</h2>
+            <div id="feedingLog"></div>
+        </div>
+
+        <div class="log">
+            <h2 id="deleted-log-title">Deleted Log</h2>
+            <div id="deletedLog"></div>
+        </div>
+    </main>
+
+    <footer>
+        <span id="footer-text">For suggestions or feedback, contact us at </span><a href="mailto:communitycat@example.com">communitycat@example.com</a>
+    </footer>
+
+    <script>
+        const feedingForm = document.getElementById('feedingForm');
+        const feedingLog = document.getElementById('feedingLog');
+        const deletedLog = document.getElementById('deletedLog');
+        const languageSelector = document.getElementById('language');
+
+        const languageData = {
+            en: {
+                title: "Community Cat Feeding Tracker",
+                logFeedingTitle: "Log Feeding",
+                feederNameLabel: "Your Name:",
+                feedingTypeLabel: "Feeding Type:",
+                catFoodLabel: "Cat Food",
+                cannedFoodLabel: "Canned Food",
+                otherFoodLabel: "Other",
+                submitButton: "Submit",
+                feedingLogTitle: "Feeding Log",
+                deletedLogTitle: "Deleted Log",
+                footerText: "For suggestions or feedback, contact us at "
+            },
+            zh: {
+                title: "社区猫喂养记录",
+                logFeedingTitle: "记录喂养",
+                feederNameLabel: "您的名字:",
+                feedingTypeLabel: "喂养类型:",
+                catFoodLabel: "猫粮",
+                cannedFoodLabel: "猫罐头",
+                otherFoodLabel: "其他",
+                submitButton: "提交",
+                feedingLogTitle: "喂养记录",
+                deletedLogTitle: "删除的记录",
+                footerText: "如有建议或反馈，请联系："
+            },
+            ta: {
+                title: "சமூக பூனை உணவளிப்பு பதிவேடு",
+                logFeedingTitle: "உணவளிப்பு பதிவேடு",
+                feederNameLabel: "உங்கள் பெயர்:",
+                feedingTypeLabel: "உணவளிப்பு வகை:",
+                catFoodLabel: "பூனை உணவு",
+                cannedFoodLabel: "கட்டுநிலை உணவு",
+                otherFoodLabel: "மற்றவை",
+                submitButton: "சமர்ப்பிக்கவும்",
+                feedingLogTitle: "உணவளிப்பு பதிவு",
+                deletedLogTitle: "நீக்கப்பட்ட பதிவு",
+                footerText: "தொடர்புக்கு: "
+            },
+            ms: {
+                title: "Penjejak Pemberian Makanan Kucing Komuniti",
+                logFeedingTitle: "Log Pemberian Makanan",
+                feederNameLabel: "Nama Anda:",
+                feedingTypeLabel: "Jenis Makanan:",
+                catFoodLabel: "Makanan Kucing",
+                cannedFoodLabel: "Makanan Dalam Tin",
+                otherFoodLabel: "Lain-lain",
+                submitButton: "Hantar",
+                feedingLogTitle: "Log Pemberian Makanan",
+                deletedLogTitle: "Log Dipadam",
+                footerText: "Untuk cadangan atau maklum balas, hubungi: "
+            }
+        };
+
+        languageSelector.addEventListener('change', (event) => {
+            const selectedLanguage = event.target.value;
+            const translations = languageData[selectedLanguage];
+
+            document.getElementById('title').textContent = translations.title;
+            document.getElementById('log-feeding-title').textContent = translations.logFeedingTitle;
+            document.getElementById('feeder-name-label').textContent = translations.feederNameLabel;
+            document.getElementById('feeding-type-label').textContent = translations.feedingTypeLabel;
+            document.getElementById('cat-food-label').textContent = translations.catFoodLabel;
+            document.getElementById('canned-food-label').textContent = translations.cannedFoodLabel;
+            document.getElementById('other-food-label').textContent = translations.otherFoodLabel;
+            document.getElementById('submit-button').textContent = translations.submitButton;
+            document.getElementById('feeding-log-title').textContent = translations.feedingLogTitle;
+            document.getElementById('deleted-log-title').textContent = translations.deletedLogTitle;
+            document.getElementById('footer-text').textContent = translations.footerText;
+        });
+
+        feedingForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const feederName = document.getElementById('feederName').value;
+            const feedingTime = new Date(); // Use current system time
+            const feedingTypes = Array.from(document.querySelectorAll('input[name="feedingType"]:checked')).map(input => input.value);
+            if (feederName && feedingTypes.length > 0) {
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log-entry';
+                logEntry.innerHTML = `<span><strong>${feederName}</strong> fed the cat with <em>${feedingTypes.join(', ')}</em> at <em>${feedingTime.toLocaleString()}</em></span>`;
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.addEventListener('click', function() {
+                    feedingLog.removeChild(logEntry);
+                    deletedLog.appendChild(logEntry);
+                    deleteBtn.remove();
+                });
+
+                logEntry.appendChild(deleteBtn);
+                feedingLog.appendChild(logEntry);
+            }
+        });
+
+        // Trigger initial translation
+        languageSelector.dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>
